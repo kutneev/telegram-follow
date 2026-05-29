@@ -1,0 +1,47 @@
+const steps = [
+  {
+    title: "Вы оставляете заявку",
+    text: "Указываете email и ссылку на Telegram-канал. Больше ничего заполнять не нужно."
+  },
+  {
+    title: "Мы смотрим канал",
+    text: "Проверяем тематику, оформление, описание и последние посты, чтобы понять, насколько канал готов к запуску."
+  },
+  {
+    title: "Запускаем рассылку-приглашение",
+    text: "Показываем ваш канал по большой базе пользователей."
+  },
+  {
+    title: "Люди подписываются сами",
+    text: "Мы не добавляем подписчиков автоматически. Человек сам решает, интересен ему канал или нет."
+  },
+  {
+    title: "Вы получаете результат",
+    text: "Подписчики приходят постепенно. Скорость зависит от попадания в аудиторию и качества контента."
+  }
+];
+
+export function HowItWorks() {
+  return (
+    <section id="how-it-works" className="container-shell py-16">
+      <div className="max-w-2xl">
+        <p className="text-sm font-semibold uppercase text-telegram-700">Процесс</p>
+        <h2 className="mt-3 text-3xl font-bold text-ink sm:text-4xl">Как это работает</h2>
+      </div>
+      <div className="mt-8 grid gap-4 lg:grid-cols-5">
+        {steps.map((step, index) => (
+          <article key={step.title} className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:border-telegram-200 hover:shadow-card">
+            <div className="mb-6 flex items-center gap-3">
+              <span className="text-xs font-semibold uppercase text-slate-400">Шаг</span>
+              <span className="grid h-9 w-9 place-items-center rounded-lg bg-ink text-sm font-semibold text-white">
+                {index + 1}
+              </span>
+            </div>
+            <h3 className="text-lg font-semibold text-ink">{step.title}</h3>
+            <p className="mt-3 text-sm leading-6 text-slate-600">{step.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
