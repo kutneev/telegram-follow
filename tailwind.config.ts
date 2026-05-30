@@ -8,9 +8,12 @@ const config: Config = {
         telegram: {
           50: "#eff9ff",
           100: "#dff3ff",
+          200: "#b8e8ff",
+          300: "#80d8ff",
           500: "#2aabee",
           600: "#229ed9",
-          700: "#147fba"
+          700: "#147fba",
+          800: "#0f6698"
         },
         ink: "#102033"
       },

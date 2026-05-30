@@ -1,5 +1,6 @@
 import { FormEvent, useState } from "react";
 import type { PricingPlan } from "@/data/content";
+import { CheckIcon } from "./Icons";
 
 type LeadFormProps = {
   plans: PricingPlan[];
@@ -40,102 +41,105 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
   };
 
   return (
-    <section id="lead-form" className="container-shell py-16">
-      <div className="premium-panel grid gap-10 rounded-lg p-6 sm:p-8 lg:grid-cols-[0.9fr_1.1fr] lg:p-10">
-        <div>
-          <p className="text-sm font-semibold uppercase text-telegram-700">Заявка</p>
-          <h2 className="mt-3 text-3xl font-bold text-ink sm:text-4xl">Оставить заявку</h2>
-          <p className="mt-5 text-lg leading-8 text-slate-600">
-            Укажите email и ссылку на Telegram-канал. Мы посмотрим канал и свяжемся с вами после проверки.
-          </p>
-          <div className="mt-6 rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-            <p className="text-sm font-semibold text-ink">
-              {selectedPlan ? `Выбран тариф: ${selectedPlanLabel}` : "Выберите тариф"}
-            </p>
-            <div className="mt-3 grid gap-2 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-              {plans.map((plan) => {
-                const isSelected = selectedPlan?.id === plan.id;
-                return (
-                  <button
-                    key={plan.id}
-                    type="button"
-                    onClick={() => onSelectPlan(plan)}
-                    className={`focus-ring rounded-lg border px-3 py-3 text-left transition ${
-                      isSelected
-                        ? "border-telegram-500 bg-telegram-50 text-telegram-700 ring-2 ring-telegram-100"
-                        : "border-slate-200 bg-slate-50 text-slate-700 hover:border-telegram-200"
-                    }`}
-                  >
-                    <span className="block text-sm font-semibold">{plan.name}</span>
-                    <span className="mt-1 block text-xs">{plan.subscribers}</span>
-                    <span className="mt-1 block text-sm font-semibold">{plan.price}</span>
-                  </button>
-                );
-              })}
+    <section id="lead-form" className="section-pad">
+      <div className="container-shell">
+        <div className="ui-card-soft grid gap-8 p-5 sm:p-7 lg:grid-cols-[0.92fr_1.08fr] lg:p-8">
+          <div className="flex flex-col justify-between gap-8 rounded-[1.35rem] bg-ink p-6 text-white sm:p-8">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wide text-telegram-100">Заявка</p>
+              <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">Оставить заявку</h2>
+              <p className="mt-5 text-base leading-7 text-slate-200">
+                Укажите email и ссылку на Telegram-канал. Мы посмотрим канал и свяжемся с вами после проверки.
+              </p>
+            </div>
+
+            <div className="rounded-3xl bg-white/10 p-4 ring-1 ring-white/10">
+              <p className="text-sm font-semibold text-white">
+                {selectedPlan ? `Выбран тариф: ${selectedPlanLabel}` : "Выберите тариф"}
+              </p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                {plans.map((plan) => {
+                  const isSelected = selectedPlan?.id === plan.id;
+                  return (
+                    <button
+                      key={plan.id}
+                      type="button"
+                      onClick={() => onSelectPlan(plan)}
+                      className={`focus-ring rounded-2xl border px-3 py-3 text-left transition ${
+                        isSelected
+                          ? "border-telegram-300 bg-telegram-500 text-white"
+                          : "border-white/10 bg-white/10 text-slate-200 hover:border-telegram-200"
+                      }`}
+                    >
+                      <span className="block text-sm font-semibold">{plan.name}</span>
+                      <span className="mt-1 block text-xs opacity-80">{plan.subscribers}</span>
+                      <span className="mt-1 block text-sm font-semibold">{plan.price}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
+
+          <form className="rounded-[1.35rem] border border-slate-200 bg-white p-5 shadow-sm sm:p-6" onSubmit={handleSubmit} noValidate>
+            <input type="hidden" name="plan" value={selectedPlanLabel} />
+
+            {isSent ? (
+              <div className="mb-5 flex gap-3 rounded-2xl bg-emerald-50 p-4 text-sm font-semibold leading-6 text-emerald-700 ring-1 ring-emerald-100">
+                <CheckIcon className="mt-0.5 h-5 w-5 shrink-0" />
+                Заявка отправлена. Мы свяжемся с вами после проверки канала
+              </div>
+            ) : null}
+
+            <div className={isSent ? "pointer-events-none opacity-60" : ""}>
+              <label className="block text-sm font-semibold text-ink" htmlFor="email">
+                Email
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                className="form-input"
+                placeholder="you@example.com"
+                disabled={isSent}
+                aria-invalid={Boolean(errors.email)}
+                aria-describedby={errors.email ? "email-error" : undefined}
+              />
+              {errors.email ? (
+                <p id="email-error" className="mt-2 text-sm text-red-600">
+                  {errors.email}
+                </p>
+              ) : null}
+
+              <label className="mt-5 block text-sm font-semibold text-ink" htmlFor="channel">
+                Ссылка на Telegram-канал
+              </label>
+              <input
+                id="channel"
+                name="channel"
+                type="text"
+                value={channel}
+                onChange={(event) => setChannel(event.target.value)}
+                className="form-input"
+                placeholder="https://t.me/channel"
+                disabled={isSent}
+                aria-invalid={Boolean(errors.channel)}
+                aria-describedby={errors.channel ? "channel-error" : undefined}
+              />
+              {errors.channel ? (
+                <p id="channel-error" className="mt-2 text-sm text-red-600">
+                  {errors.channel}
+                </p>
+              ) : null}
+
+              <button className="btn-primary mt-7 w-full py-4 text-base disabled:cursor-not-allowed disabled:opacity-60" type="submit" disabled={isSent}>
+                Отправить заявку
+              </button>
+            </div>
+          </form>
         </div>
-
-        <form className="rounded-lg border border-slate-200 bg-slate-50/90 p-5 sm:p-6" onSubmit={handleSubmit} noValidate>
-          <input type="hidden" name="plan" value={selectedPlanLabel} />
-          {isSent ? (
-            <div className="rounded-lg bg-white p-6 text-base font-semibold leading-7 text-emerald-700 ring-1 ring-emerald-100">
-              Заявка отправлена. Мы свяжемся с вами после проверки канала
-            </div>
-          ) : null}
-
-          <div className={isSent ? "pointer-events-none mt-5 opacity-60" : ""}>
-            <label className="block text-sm font-semibold text-ink" htmlFor="email">
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              className="focus-ring mt-2 w-full rounded-lg border border-slate-200 bg-white px-4 py-3.5 text-base text-ink shadow-sm"
-              placeholder="you@example.com"
-              disabled={isSent}
-              aria-invalid={Boolean(errors.email)}
-              aria-describedby={errors.email ? "email-error" : undefined}
-            />
-            {errors.email ? (
-              <p id="email-error" className="mt-2 text-sm text-red-600">
-                {errors.email}
-              </p>
-            ) : null}
-
-            <label className="mt-5 block text-sm font-semibold text-ink" htmlFor="channel">
-              Ссылка на Telegram-канал
-            </label>
-            <input
-              id="channel"
-              name="channel"
-              type="text"
-              value={channel}
-              onChange={(event) => setChannel(event.target.value)}
-              className="focus-ring mt-2 w-full rounded-lg border border-slate-200 bg-white px-4 py-3.5 text-base text-ink shadow-sm"
-              placeholder="https://t.me/channel"
-              disabled={isSent}
-              aria-invalid={Boolean(errors.channel)}
-              aria-describedby={errors.channel ? "channel-error" : undefined}
-            />
-            {errors.channel ? (
-              <p id="channel-error" className="mt-2 text-sm text-red-600">
-                {errors.channel}
-              </p>
-            ) : null}
-
-            <button
-              className="focus-ring mt-7 w-full rounded-full bg-telegram-600 px-6 py-4 text-base font-semibold text-white shadow-card transition hover:bg-telegram-700 disabled:cursor-not-allowed disabled:opacity-60"
-              type="submit"
-              disabled={isSent}
-            >
-              Отправить заявку
-            </button>
-          </div>
-        </form>
       </div>
     </section>
   );

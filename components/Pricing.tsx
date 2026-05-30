@@ -1,4 +1,5 @@
 import type { PricingPlan } from "@/data/content";
+import { CheckIcon } from "./Icons";
 
 type PricingProps = {
   plans: PricingPlan[];
@@ -8,53 +9,53 @@ type PricingProps = {
 
 export function Pricing({ plans, selectedPlan, onSelectPlan }: PricingProps) {
   return (
-    <section id="pricing" className="bg-white py-16">
+    <section id="pricing" className="section-pad bg-white">
       <div className="container-shell">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-semibold uppercase text-telegram-700">Пакеты</p>
-          <h2 className="mt-3 text-3xl font-bold text-ink sm:text-4xl">Тарифы</h2>
-          <p className="mt-4 text-lg leading-8 text-slate-600">
-            Выберите пакет для теста или плавного роста Telegram-канала.
-          </p>
+          <p className="section-kicker">Пакеты</p>
+          <h2 className="section-title">Тарифы</h2>
+          <p className="section-copy">Выберите пакет для теста или плавного роста Telegram-канала.</p>
         </div>
 
-        <div className="mt-8 grid gap-3 lg:grid-cols-3">
+        <div className="mt-10 grid auto-rows-fr items-stretch gap-5 lg:grid-cols-3">
           {plans.map((plan) => {
             const isSelected = selectedPlan?.id === plan.id;
+            const isFeatured = plan.id === "start";
+
             return (
               <article
                 key={plan.id}
-                className={`relative rounded-lg border bg-white p-5 shadow-card transition hover:-translate-y-1 ${
-                  isSelected ? "border-telegram-500 ring-4 ring-telegram-100" : "border-slate-200"
-                } ${plan.id === "start" ? "bg-gradient-to-b from-white to-telegram-50/60" : ""}`}
+                className={`ui-card relative flex h-full flex-col p-5 transition hover:-translate-y-1 hover:shadow-soft sm:p-6 lg:min-h-[420px] ${
+                  isFeatured ? "border-telegram-200 bg-gradient-to-b from-white to-telegram-50/70 shadow-soft" : ""
+                } ${isSelected ? "ring-4 ring-telegram-100" : ""}`}
               >
-                <div
-                  className={`mb-4 h-1.5 w-14 rounded-full ${
-                    plan.id === "start" ? "bg-telegram-600" : "bg-slate-200"
-                  }`}
-                />
                 {plan.badge ? (
-                  <span className={`absolute right-5 top-5 rounded-full px-3 py-1 text-xs font-semibold ring-1 ${
-                    plan.id === "start" ? "bg-ink text-white ring-ink" : "bg-telegram-50 text-telegram-700 ring-telegram-100"
+                  <span className={`absolute right-5 top-5 rounded-full px-3 py-1 text-xs font-semibold ${
+                    isFeatured ? "bg-ink text-white" : "bg-telegram-50 text-telegram-700 ring-1 ring-telegram-100"
                   }`}>
                     {plan.badge}
                   </span>
                 ) : null}
-                <div className="flex items-end justify-between gap-4">
+
+                <div className={`h-1.5 w-14 rounded-full ${isFeatured ? "bg-telegram-600" : "bg-slate-200"}`} />
+                <div className="mt-6 rounded-3xl bg-slate-50 p-5 ring-1 ring-slate-100">
                   <h3 className="text-2xl font-semibold text-ink">{plan.name}</h3>
-                  <p className="text-3xl font-semibold text-ink">{plan.price}</p>
+                  <p className="mt-3 text-4xl font-semibold tracking-tight text-ink">{plan.price}</p>
                 </div>
-                <div className="mt-4 grid gap-2 text-sm font-medium text-slate-700 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                  <p className="rounded-lg bg-slate-50 px-3 py-2 ring-1 ring-slate-100">{plan.subscribers}</p>
-                  <p className="rounded-lg bg-slate-50 px-3 py-2 ring-1 ring-slate-100">{plan.period}</p>
+
+                <div className="mt-5 grid gap-2 text-sm font-medium text-slate-700">
+                  {[plan.subscribers, plan.period].map((item) => (
+                    <div key={item} className="flex items-center gap-2 rounded-2xl bg-slate-50 px-3 py-2 ring-1 ring-slate-100">
+                      <CheckIcon className="h-4 w-4 text-telegram-600" />
+                      {item}
+                    </div>
+                  ))}
                 </div>
-                <p className="mt-4 text-sm leading-6 text-slate-600">{plan.description}</p>
+
+                <p className="mt-5 flex-1 text-sm leading-6 text-slate-600">{plan.description}</p>
+
                 <button
-                  className={`focus-ring mt-4 w-full rounded-full px-5 py-3 text-sm font-semibold transition ${
-                    plan.id === "start"
-                      ? "bg-telegram-600 text-white shadow-[0_16px_38px_rgba(34,158,217,0.24)] hover:bg-telegram-700"
-                      : "border border-slate-200 bg-white text-ink hover:border-telegram-200 hover:text-telegram-700"
-                }`}
+                  className={`${isFeatured ? "btn-primary" : "btn-secondary"} mt-6 w-full py-3`}
                   type="button"
                   onClick={() => onSelectPlan(plan)}
                 >
@@ -65,7 +66,7 @@ export function Pricing({ plans, selectedPlan, onSelectPlan }: PricingProps) {
           })}
         </div>
 
-        <p className="mx-auto mt-6 max-w-4xl rounded-lg border border-slate-200 bg-slate-50 px-5 py-4 text-center text-sm leading-6 text-slate-600">
+        <p className="mx-auto mt-6 max-w-4xl rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-center text-sm leading-6 text-slate-600">
           Срок выполнения зависит от тематики канала, качества контента и интереса аудитории. Мы не используем ботов и не добавляем людей принудительно, поэтому прирост идёт постепенно.
         </p>
       </div>
