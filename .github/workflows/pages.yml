@@ -33,8 +33,6 @@ jobs:
 
       - name: Build static site
         run: npm run build
-        env:
-          BASE_PATH: /telegram-follow
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
