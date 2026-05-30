@@ -10,19 +10,24 @@ type LeadFormProps = {
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const telegramPattern = /^(https?:\/\/)?t\.me\/[a-zA-Z0-9_]{5,}\/?$|^@[a-zA-Z0-9_]{5,}$/;
+const leadEndpoint =
+  "https://script.google.com/macros/s/AKfycby2bRUuVzYXiMHYHQPX20AZ6v0iKcQHUeRY4ejFoo-LzDhIGlk34IUS9SBRBnPNbH_k/exec";
 
 export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
   const [email, setEmail] = useState("");
   const [channel, setChannel] = useState("");
   const [errors, setErrors] = useState<{ email?: string; channel?: string }>({});
   const [isSent, setIsSent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const selectedPlanLabel = selectedPlan
     ? `${selectedPlan.name} — ${selectedPlan.subscribers} за ${selectedPlan.price}`
     : "";
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setSubmitError("");
 
     const nextErrors: { email?: string; channel?: string } = {};
     if (!emailPattern.test(email)) {
@@ -37,7 +42,26 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
       return;
     }
 
-    setIsSent(true);
+    setIsSubmitting(true);
+
+    try {
+      await fetch(leadEndpoint, {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify({
+          email,
+          channel: channel.trim(),
+          plan: selectedPlanLabel,
+          source: "telegram-follow"
+        })
+      });
+
+      setIsSent(true);
+    } catch {
+      setSubmitError("Не удалось отправить заявку. Попробуйте ещё раз.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -91,6 +115,12 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
               </div>
             ) : null}
 
+            {submitError ? (
+              <div className="mb-5 rounded-2xl bg-red-50 p-4 text-sm font-semibold leading-6 text-red-700 ring-1 ring-red-100">
+                {submitError}
+              </div>
+            ) : null}
+
             <div className={isSent ? "pointer-events-none opacity-60" : ""}>
               <label className="block text-sm font-semibold text-ink" htmlFor="email">
                 Email
@@ -134,8 +164,8 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
                 </p>
               ) : null}
 
-              <button className="btn-primary mt-7 w-full py-4 text-base disabled:cursor-not-allowed disabled:opacity-60" type="submit" disabled={isSent}>
-                Отправить заявку
+              <button className="btn-primary mt-7 w-full py-4 text-base disabled:cursor-not-allowed disabled:opacity-60" type="submit" disabled={isSent || isSubmitting}>
+                {isSubmitting ? "Отправляем..." : "Отправить заявку"}
               </button>
             </div>
           </form>
