@@ -15,107 +15,56 @@ const metrics = [
 
 export function Hero({ onPrimaryClick, onPricingClick }: HeroProps) {
   return (
-    <section id="top" className="relative overflow-hidden">
-      <div className="container-shell grid gap-10 pb-16 pt-12 lg:grid-cols-[0.94fr_1.06fr] lg:items-center lg:pb-20 lg:pt-16">
-        <div>
-          <p className="inline-flex items-center gap-2 rounded-full border border-telegram-100 bg-white px-4 py-2 text-sm font-semibold text-telegram-700 shadow-sm">
-            <span className="h-2 w-2 rounded-full bg-telegram-500" />
-            Живые подписчики в Telegram
-          </p>
-
-          <h1 className="mt-6 max-w-3xl text-4xl font-semibold leading-[1.04] text-ink sm:text-5xl lg:text-6xl">
-            Подписчики Телеграм для вашего канала
-          </h1>
-
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+    <section id="top" className="hero-section">
+      <div className="container-shell hero-grid">
+        <div className="hero-copy">
+          <p className="hero-eyebrow"><span />Живые подписчики в Telegram</p>
+          <h1>Подписчики Телеграм для вашего канала</h1>
+          <p className="hero-description">
             Запускаем рассылку-приглашение по большой базе пользователей. Люди сами переходят в канал и подписываются, если им интересна тема.
           </p>
-
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <button className="btn-primary text-base" type="button" onClick={onPrimaryClick}>
+          <div id="hero-actions" className="hero-actions">
+            <button className="btn-primary" type="button" onClick={onPrimaryClick}>
               Заказать подписчиков
             </button>
-            <button className="btn-secondary text-base" type="button" onClick={onPricingClick}>
-              Посмотреть тарифы
+            <button className="text-action" type="button" onClick={onPricingClick}>
+              Посмотреть тарифы <span aria-hidden="true">↓</span>
             </button>
           </div>
-
-          <div className="mt-7 flex flex-wrap gap-3">
-            {badges.map((badge) => (
-              <span key={badge} className="pill">
-                {badge}
-              </span>
-            ))}
-          </div>
+          <ul className="hero-conditions" aria-label="Условия запуска">
+            {badges.map((badge) => <li key={badge}>{badge}</li>)}
+          </ul>
         </div>
 
-        <button
-          className="ui-card-soft focus-ring group block w-full cursor-pointer p-2.5 text-left transition hover:-translate-y-1 hover:shadow-soft sm:p-3"
-          type="button"
-          onClick={onPricingClick}
-          aria-label="Перейти к тарифам"
-        >
-          <div className="rounded-[1.35rem] border border-slate-200 bg-gradient-to-br from-white via-white to-telegram-50/60 p-4 sm:p-5">
-            <div className="flex flex-col gap-4 border-b border-slate-200/80 pb-5 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-center gap-4">
-                <div className="grid h-[58px] w-[58px] place-items-center rounded-2xl bg-white shadow-[0_16px_34px_rgba(16,32,51,0.14)] ring-1 ring-slate-200">
-                  <TelegramLogo className="h-11 w-11" />
-                </div>
-                <div>
-                  <p className="text-base font-semibold text-ink">Telegram-канал</p>
-                  <p className="mt-1 text-sm text-slate-500">Профиль готов к рассылке-приглашению</p>
-                </div>
-              </div>
-              <span className="inline-flex w-fit rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-100">
-                Активно
-              </span>
+        <button className="hero-dashboard focus-ring" type="button" onClick={onPricingClick} aria-label="Перейти к тарифам">
+          <div className="dashboard-header">
+            <TelegramLogo className="dashboard-logo" />
+            <div className="min-w-0">
+              <p className="dashboard-title">Telegram-канал</p>
+              <p className="dashboard-subtitle">Профиль готов к рассылке-приглашению</p>
             </div>
-
-            <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-sm font-semibold text-telegram-700">Рассылка-приглашение запущена</p>
-                  <p className="mt-2 text-sm leading-6 text-slate-500">Показываем канал пользователям из большой базы.</p>
-                </div>
-                <div className="h-3 w-3 rounded-full bg-emerald-500 shadow-[0_0_0_8px_rgba(16,185,129,0.12)]" />
-              </div>
-
-              <div className="mt-6">
-                <div className="flex items-center justify-between text-sm font-medium text-slate-600">
-                  <span>Прогресс выполнения</span>
-                  <span>68%</span>
-                </div>
-                <div className="mt-3 h-3 overflow-hidden rounded-full bg-slate-100">
-                  <div className="h-full w-[68%] rounded-full bg-gradient-to-r from-telegram-500 to-emerald-400" />
-                </div>
-              </div>
-
-              <div className="mt-6 flex h-16 items-end gap-2">
-                {[34, 48, 42, 60, 74, 68, 82].map((height, index) => (
-                  <div key={height + index} className="flex h-full flex-1 items-end rounded-t-lg bg-telegram-100/80">
-                    <div className="w-full rounded-t-lg bg-telegram-500" style={{ height: `${height}%` }} />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-4 grid gap-3 sm:grid-cols-3">
-              {metrics.map((metric) => (
-                <div key={metric.value} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-                  <p className="text-2xl font-semibold text-ink">{metric.value}</p>
-                  <p className="mt-1 text-xs font-medium uppercase tracking-wide text-slate-400">{metric.label}</p>
-                </div>
+            <span className="dashboard-status">Активно</span>
+          </div>
+          <div className="dashboard-activity">
+            <p className="dashboard-caption"><span />Рассылка-приглашение запущена</p>
+            <p className="dashboard-description">Показываем канал пользователям из большой базы.</p>
+            <div className="dashboard-progress-label"><span>Прогресс выполнения</span><strong>68%</strong></div>
+            <div className="dashboard-progress"><span /></div>
+            <div className="dashboard-chart" aria-hidden="true">
+              {[24, 36, 32, 49, 63, 60, 76, 88, 100].map((height, index) => (
+                <div key={index} style={{ height: `${height}%` }} />
               ))}
             </div>
-
-            <div className="mt-4 grid gap-3 sm:grid-cols-3">
-              {dashboardBadges.map((badge) => (
-                <div key={badge} className="flex items-center gap-2 rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-slate-700 ring-1 ring-slate-200">
-                  <CheckIcon className="h-4 w-4 text-telegram-600" />
-                  {badge}
-                </div>
-              ))}
-            </div>
+          </div>
+          <div className="dashboard-metrics">
+            {metrics.map((metric) => (
+              <div key={metric.label}><strong>{metric.value}</strong><span>{metric.label}</span></div>
+            ))}
+          </div>
+          <div className="dashboard-benefits">
+            {dashboardBadges.map((badge) => (
+              <span key={badge}><CheckIcon />{badge}</span>
+            ))}
           </div>
         </button>
       </div>

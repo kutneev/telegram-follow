@@ -30,18 +30,17 @@ export function HowItWorks() {
           <h2 className="section-title">Как это работает</h2>
         </div>
 
-        <div className="mt-9 grid auto-rows-fr gap-4 lg:grid-cols-5">
+        <ol className="steps-list">
           {steps.map((step, index) => (
-            <article key={step.title} className="ui-card relative h-full p-6">
-              <div className="mb-5 flex items-center gap-3">
-                <span className="grid h-9 w-9 place-items-center rounded-full bg-ink text-sm font-semibold text-white">{index + 1}</span>
-                <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">шаг</span>
+            <li key={step.title} className="step-item">
+              <span className="step-number" aria-hidden="true">{index + 1}</span>
+              <div>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
               </div>
-              <h3 className="text-lg font-semibold leading-snug text-ink">{step.title}</h3>
-              <p className="mt-3 text-sm leading-6 text-slate-600">{step.text}</p>
-            </article>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );

@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import type { PricingPlan } from "@/data/content";
 import { CheckIcon } from "./Icons";
 
@@ -20,6 +20,10 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
   const [isSent, setIsSent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const planPicker = useRef<HTMLDetailsElement>(null);
+  const planSummary = useRef<HTMLElement>(null);
+  const emailInput = useRef<HTMLInputElement>(null);
+  const channelInput = useRef<HTMLInputElement>(null);
 
   const selectedPlanLabel = selectedPlan
     ? `${selectedPlan.name} — ${selectedPlan.subscribers} за ${selectedPlan.price}`
@@ -27,35 +31,34 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (isSent || isSubmitting) return;
     setSubmitError("");
 
     const nextErrors: { email?: string; channel?: string } = {};
-    if (!emailPattern.test(email)) {
+    if (!emailPattern.test(email.trim())) {
       nextErrors.email = "Введите корректный email.";
     }
     if (!telegramPattern.test(channel.trim())) {
       nextErrors.channel = "Укажите ссылку вида https://t.me/channel, t.me/channel или @channelname.";
     }
-
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
+      (nextErrors.email ? emailInput : channelInput).current?.focus();
       return;
     }
 
     setIsSubmitting(true);
-
     try {
       await fetch(leadEndpoint, {
         method: "POST",
         mode: "no-cors",
         body: JSON.stringify({
-          email,
+          email: email.trim(),
           channel: channel.trim(),
           plan: selectedPlanLabel,
           source: "telegram-follow"
         })
       });
-
       setIsSent(true);
     } catch {
       setSubmitError("Не удалось отправить заявку. Попробуйте ещё раз.");
@@ -64,112 +67,112 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
     }
   };
 
-  return (
-    <section id="lead-form" className="section-pad">
-      <div className="container-shell">
-        <div className="ui-card-soft grid gap-8 p-5 sm:p-7 lg:grid-cols-[0.92fr_1.08fr] lg:p-8">
-          <div className="flex flex-col justify-between gap-8 rounded-[1.35rem] bg-ink p-6 text-white sm:p-8">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-wide text-telegram-100">Заявка</p>
-              <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">Оставить заявку</h2>
-              <p className="mt-5 text-base leading-7 text-slate-200">
-                Укажите email и ссылку на Telegram-канал. Мы посмотрим канал и свяжемся с вами после проверки.
-              </p>
-            </div>
+  const selectPlan = (plan: PricingPlan) => {
+    onSelectPlan(plan);
+    if (planPicker.current) planPicker.current.open = false;
+    planSummary.current?.focus({ preventScroll: true });
+  };
 
-            <div className="rounded-3xl bg-white/10 p-4 ring-1 ring-white/10">
-              <p className="text-sm font-semibold text-white">
-                {selectedPlan ? `Выбран тариф: ${selectedPlanLabel}` : "Выберите тариф"}
-              </p>
-              <div className="mt-3 grid gap-2 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-                {plans.map((plan) => {
-                  const isSelected = selectedPlan?.id === plan.id;
-                  return (
+  return (
+    <section id="lead-form" className="section-pad lead-section">
+      <div className="container-shell lead-grid">
+        <div className="lead-intro">
+          <p className="section-kicker">Заявка</p>
+          <h2 className="section-title">Оставить заявку</h2>
+          <p className="section-copy">
+            Укажите email и ссылку на Telegram-канал. Мы посмотрим канал и свяжемся с вами после проверки.
+          </p>
+        </div>
+
+        <form className="lead-card" onSubmit={handleSubmit} noValidate>
+          <input type="hidden" name="plan" value={selectedPlanLabel} />
+          {isSent ? (
+            <div className="lead-success" role="status" tabIndex={-1}>
+              <span className="success-icon"><CheckIcon /></span>
+              <p>Заявка отправлена. Мы свяжемся с вами после проверки канала</p>
+            </div>
+          ) : (
+            <>
+              <details className="plan-picker" ref={planPicker}>
+                <summary ref={planSummary} className="focus-ring">
+                  <span className="plan-summary-copy">
+                    <span className="plan-summary-label">Выбранный тариф</span>
+                    <strong>{selectedPlan ? `${selectedPlan.name} · ${selectedPlan.price}` : "Без выбора тарифа"}</strong>
+                    {selectedPlan ? <span className="plan-summary-meta">{selectedPlan.subscribers} · {selectedPlan.period}</span> : null}
+                  </span>
+                  <span className="plan-change">{selectedPlan ? "Изменить" : "Выбрать"}<span aria-hidden="true">↓</span></span>
+                </summary>
+                <div className="plan-options" role="group" aria-label="Выберите тариф">
+                  {plans.map((plan) => (
                     <button
                       key={plan.id}
                       type="button"
-                      onClick={() => onSelectPlan(plan)}
-                      className={`focus-ring rounded-2xl border px-3 py-3 text-left transition ${
-                        isSelected
-                          ? "border-telegram-300 bg-telegram-500 text-white"
-                          : "border-white/10 bg-white/10 text-slate-200 hover:border-telegram-200"
-                      }`}
+                      className="plan-option focus-ring"
+                      aria-pressed={selectedPlan?.id === plan.id}
+                      disabled={isSubmitting}
+                      onClick={() => selectPlan(plan)}
                     >
-                      <span className="block text-sm font-semibold">{plan.name}</span>
-                      <span className="mt-1 block text-xs opacity-80">{plan.subscribers}</span>
-                      <span className="mt-1 block text-sm font-semibold">{plan.price}</span>
+                      <span className="plan-option-check"><CheckIcon /></span>
+                      <span><strong>{plan.name}</strong><small>{plan.subscribers}</small></span>
+                      <strong className="plan-option-price">{plan.price}</strong>
                     </button>
-                  );
-                })}
+                  ))}
+                </div>
+              </details>
+
+              <div className="lead-fields">
+                <div>
+                  <label htmlFor="email">Email</label>
+                  <input
+                    ref={emailInput}
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    inputMode="email"
+                    autoCapitalize="none"
+                    spellCheck={false}
+                    enterKeyHint="next"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    className="form-input"
+                    placeholder="you@example.com"
+                    disabled={isSubmitting}
+                    aria-invalid={Boolean(errors.email)}
+                    aria-describedby={errors.email ? "email-error" : undefined}
+                  />
+                  {errors.email ? <p id="email-error" className="field-error">{errors.email}</p> : null}
+                </div>
+                <div>
+                  <label htmlFor="channel">Ссылка на Telegram-канал</label>
+                  <input
+                    ref={channelInput}
+                    id="channel"
+                    name="channel"
+                    type="text"
+                    autoComplete="off"
+                    inputMode="url"
+                    autoCapitalize="none"
+                    spellCheck={false}
+                    enterKeyHint="send"
+                    value={channel}
+                    onChange={(event) => setChannel(event.target.value)}
+                    className="form-input"
+                    placeholder="https://t.me/channel"
+                    disabled={isSubmitting}
+                    aria-invalid={Boolean(errors.channel)}
+                    aria-describedby={errors.channel ? "channel-error" : undefined}
+                  />
+                  {errors.channel ? <p id="channel-error" className="field-error">{errors.channel}</p> : null}
+                </div>
               </div>
-            </div>
-          </div>
-
-          <form className="rounded-[1.35rem] border border-slate-200 bg-white p-5 shadow-sm sm:p-6" onSubmit={handleSubmit} noValidate>
-            <input type="hidden" name="plan" value={selectedPlanLabel} />
-
-            {isSent ? (
-              <div className="mb-5 flex gap-3 rounded-2xl bg-emerald-50 p-4 text-sm font-semibold leading-6 text-emerald-700 ring-1 ring-emerald-100">
-                <CheckIcon className="mt-0.5 h-5 w-5 shrink-0" />
-                Заявка отправлена. Мы свяжемся с вами после проверки канала
-              </div>
-            ) : null}
-
-            {submitError ? (
-              <div className="mb-5 rounded-2xl bg-red-50 p-4 text-sm font-semibold leading-6 text-red-700 ring-1 ring-red-100">
-                {submitError}
-              </div>
-            ) : null}
-
-            <div className={isSent ? "pointer-events-none opacity-60" : ""}>
-              <label className="block text-sm font-semibold text-ink" htmlFor="email">
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                className="form-input"
-                placeholder="you@example.com"
-                disabled={isSent}
-                aria-invalid={Boolean(errors.email)}
-                aria-describedby={errors.email ? "email-error" : undefined}
-              />
-              {errors.email ? (
-                <p id="email-error" className="mt-2 text-sm text-red-600">
-                  {errors.email}
-                </p>
-              ) : null}
-
-              <label className="mt-5 block text-sm font-semibold text-ink" htmlFor="channel">
-                Ссылка на Telegram-канал
-              </label>
-              <input
-                id="channel"
-                name="channel"
-                type="text"
-                value={channel}
-                onChange={(event) => setChannel(event.target.value)}
-                className="form-input"
-                placeholder="https://t.me/channel"
-                disabled={isSent}
-                aria-invalid={Boolean(errors.channel)}
-                aria-describedby={errors.channel ? "channel-error" : undefined}
-              />
-              {errors.channel ? (
-                <p id="channel-error" className="mt-2 text-sm text-red-600">
-                  {errors.channel}
-                </p>
-              ) : null}
-
-              <button className="btn-primary mt-7 w-full py-4 text-base disabled:cursor-not-allowed disabled:opacity-60" type="submit" disabled={isSent || isSubmitting}>
+              {submitError ? <p className="field-error" role="alert">{submitError}</p> : null}
+              <button className="btn-primary lead-submit" type="submit" disabled={isSubmitting}>
                 {isSubmitting ? "Отправляем..." : "Отправить заявку"}
               </button>
-            </div>
-          </form>
-        </div>
+            </>
+          )}
+        </form>
       </div>
     </section>
   );

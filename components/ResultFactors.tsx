@@ -12,23 +12,23 @@ export function ResultFactors() {
   return (
     <>
       <section className="section-pad">
-        <div className="container-shell grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+        <div className="container-shell grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-8">
           <div>
             <p className="section-kicker">Результат</p>
             <h2 className="section-title">Что влияет на скорость и результат</h2>
             <p className="section-copy">
               Мы работаем только с живыми людьми, поэтому подписчики не появляются мгновенно одной кнопкой.
             </p>
-            <p className="mt-5 text-sm leading-6 text-slate-600">
+            <p className="mt-4 text-sm leading-6 text-slate-600">
               Если канал хорошо оформлен и тема понятна, подписчики приходят быстрее. Если канал пустой, неясный или давно не обновлялся, результат может быть медленнее.
             </p>
           </div>
 
-          <div className="ui-card p-5 sm:p-6">
+          <div className="result-checklist">
             <p className="text-base font-semibold text-ink">На результат влияет</p>
-            <ul className="mt-5 grid gap-3">
+            <ul>
               {factors.map((factor) => (
-                <li key={factor} className="flex items-start gap-3 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-slate-700 ring-1 ring-slate-100">
+                <li key={factor}>
                   <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-telegram-50 text-telegram-700">
                     <CheckIcon className="h-4 w-4" />
                   </span>
@@ -42,10 +42,9 @@ export function ResultFactors() {
 
       <section className="section-pad bg-white">
         <div className="container-shell">
-          <article className="ui-card mx-auto max-w-4xl p-6 sm:p-8 lg:p-10">
-            <p className="section-kicker">SEO и суть услуги</p>
+          <article className="editorial-content">
             <h2 className="section-title">Живые подписчики в Телеграм без ботов</h2>
-            <div className="mt-6 space-y-5 text-base leading-8 text-slate-600">
+            <div className="mt-4 space-y-3 text-base leading-relaxed text-slate-600">
               <p>
                 Подписчики в Телеграм нужны не только для красивой цифры в описании канала. Они помогают создать первое социальное доказательство, протестировать интерес к теме и запустить дальнейшее продвижение. Но важно не просто купить подписчиков в Телеграм, а понимать, как именно они появляются.
               </p>

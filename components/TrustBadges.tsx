@@ -27,16 +27,18 @@ export function TrustBadges() {
   return (
     <section className="section-pad bg-white">
       <div className="container-shell">
-        <div className="grid auto-rows-fr gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="benefits-grid">
           {items.map((item) => {
             const Icon = item.icon;
             return (
-              <article key={item.title} className="ui-card flex h-full flex-col p-6">
+              <article key={item.title} className="benefit-item">
                 <div className="icon-tile">
                   <Icon className="h-5 w-5" />
                 </div>
-                <h2 className="mt-5 text-xl font-semibold text-ink">{item.title}</h2>
-                <p className="mt-3 text-sm leading-6 text-slate-600">{item.text}</p>
+                <div>
+                  <h2>{item.title}</h2>
+                  <p>{item.text}</p>
+                </div>
               </article>
             );
           })}

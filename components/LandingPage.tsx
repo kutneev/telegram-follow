@@ -8,6 +8,7 @@ import { Header } from "./Header";
 import { Hero } from "./Hero";
 import { HowItWorks } from "./HowItWorks";
 import { LeadForm } from "./LeadForm";
+import { MobileCta } from "./MobileCta";
 import { Pricing } from "./Pricing";
 import { ResultFactors } from "./ResultFactors";
 import { Testimonials } from "./Testimonials";
@@ -17,7 +18,8 @@ export function LandingPage() {
   const [selectedPlan, setSelectedPlan] = useState<PricingPlan | null>(null);
 
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth";
+    document.getElementById(id)?.scrollIntoView({ behavior, block: "start" });
   };
 
   const handlePlanSelect = (plan: PricingPlan) => {
@@ -37,6 +39,7 @@ export function LandingPage() {
       <FAQ items={faqItems} />
       <LeadForm plans={pricingPlans} selectedPlan={selectedPlan} onSelectPlan={setSelectedPlan} />
       <Footer />
+      <MobileCta plan={selectedPlan ?? pricingPlans[0]} onSelectPlan={handlePlanSelect} />
     </main>
   );
 }

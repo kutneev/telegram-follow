@@ -7,8 +7,8 @@ const links = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-slate-200 bg-white py-10">
-      <div className="container-shell flex flex-col gap-7 md:flex-row md:items-center md:justify-between">
+    <footer className="border-t border-slate-200 bg-white py-7 md:py-8">
+      <div className="container-shell flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
         <div>
           <p className="font-semibold text-ink">Подписчики Телеграм</p>
           <p className="mt-2 max-w-md text-sm leading-6 text-slate-600">
