@@ -14,9 +14,6 @@ export function Footer() {
           <p className="mt-2 max-w-md text-sm leading-6 text-slate-600">
             Живые подписчики в Telegram-канал через рассылку-приглашение.
           </p>
-          <a className="mt-3 inline-block text-sm font-medium text-telegram-700 hover:text-telegram-800" href="mailto:realbuzz.ruslan@gmail.com">
-            realbuzz.ruslan@gmail.com
-          </a>
         </div>
 
         <nav className="flex flex-wrap gap-2 text-sm font-medium text-slate-600">
