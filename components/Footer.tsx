@@ -14,6 +14,10 @@ export function Footer() {
           <p className="mt-2 max-w-md text-sm leading-6 text-slate-600">
             Живые подписчики в Telegram-канал через рассылку-приглашение.
           </p>
+          <p className="mt-2 text-sm leading-6 text-slate-600">
+            Савкин Александр Игоревич<br />
+            ИНН 027404221032
+          </p>
         </div>
 
         <nav className="flex flex-wrap gap-2 text-sm font-medium text-slate-600">

@@ -135,7 +135,7 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
                     value={contact}
                     onChange={(event) => setContact(event.target.value)}
                     className="form-input"
-                    placeholder="Telegram, Whatsapp"
+                    placeholder="Telegram, Whatsapp, Email"
                     disabled={isSubmitting}
                     aria-invalid={Boolean(errors.contact)}
                     aria-describedby={errors.contact ? "contact-error" : undefined}
