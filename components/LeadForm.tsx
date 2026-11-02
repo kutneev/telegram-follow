@@ -8,21 +8,20 @@ type LeadFormProps = {
   onSelectPlan: (plan: PricingPlan) => void;
 };
 
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const telegramPattern = /^(https?:\/\/)?t\.me\/[a-zA-Z0-9_]{5,}\/?$|^@[a-zA-Z0-9_]{5,}$/;
 const leadEndpoint =
   "https://script.google.com/macros/s/AKfycby2bRUuVzYXiMHYHQPX20AZ6v0iKcQHUeRY4ejFoo-LzDhIGlk34IUS9SBRBnPNbH_k/exec";
 
 export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
-  const [email, setEmail] = useState("");
+  const [contact, setContact] = useState("");
   const [channel, setChannel] = useState("");
-  const [errors, setErrors] = useState<{ email?: string; channel?: string }>({});
+  const [errors, setErrors] = useState<{ contact?: string; channel?: string }>({});
   const [isSent, setIsSent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const planPicker = useRef<HTMLDetailsElement>(null);
   const planSummary = useRef<HTMLElement>(null);
-  const emailInput = useRef<HTMLInputElement>(null);
+  const contactInput = useRef<HTMLInputElement>(null);
   const channelInput = useRef<HTMLInputElement>(null);
 
   const selectedPlanLabel = selectedPlan
@@ -34,16 +33,16 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
     if (isSent || isSubmitting) return;
     setSubmitError("");
 
-    const nextErrors: { email?: string; channel?: string } = {};
-    if (!emailPattern.test(email.trim())) {
-      nextErrors.email = "Введите корректный email.";
+    const nextErrors: { contact?: string; channel?: string } = {};
+    if (!contact.trim()) {
+      nextErrors.contact = "Укажите ваши контакты.";
     }
     if (!telegramPattern.test(channel.trim())) {
       nextErrors.channel = "Укажите ссылку вида https://t.me/channel, t.me/channel или @channelname.";
     }
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
-      (nextErrors.email ? emailInput : channelInput).current?.focus();
+      (nextErrors.contact ? contactInput : channelInput).current?.focus();
       return;
     }
 
@@ -53,7 +52,7 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
         method: "POST",
         mode: "no-cors",
         body: JSON.stringify({
-          email: email.trim(),
+          email: contact.trim(),
           channel: channel.trim(),
           plan: selectedPlanLabel,
           source: "telegram-follow"
@@ -80,7 +79,7 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
           <p className="section-kicker">Заявка</p>
           <h2 className="section-title">Оставить заявку</h2>
           <p className="section-copy">
-            Укажите email и ссылку на Telegram-канал. Мы посмотрим канал и свяжемся с вами после проверки.
+            Укажите ваши контакты и ссылку на Telegram-канал. Мы посмотрим канал и свяжемся с вами после проверки.
           </p>
         </div>
 
@@ -122,26 +121,26 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
 
               <div className="lead-fields">
                 <div>
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="contact">Ваши контакты</label>
                   <input
-                    ref={emailInput}
-                    id="email"
+                    ref={contactInput}
+                    id="contact"
                     name="email"
-                    type="email"
-                    autoComplete="email"
-                    inputMode="email"
+                    type="text"
+                    autoComplete="off"
+                    inputMode="text"
                     autoCapitalize="none"
                     spellCheck={false}
                     enterKeyHint="next"
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
+                    value={contact}
+                    onChange={(event) => setContact(event.target.value)}
                     className="form-input"
-                    placeholder="you@example.com"
+                    placeholder="Telegram, Whatsapp"
                     disabled={isSubmitting}
-                    aria-invalid={Boolean(errors.email)}
-                    aria-describedby={errors.email ? "email-error" : undefined}
+                    aria-invalid={Boolean(errors.contact)}
+                    aria-describedby={errors.contact ? "contact-error" : undefined}
                   />
-                  {errors.email ? <p id="email-error" className="field-error">{errors.email}</p> : null}
+                  {errors.contact ? <p id="contact-error" className="field-error">{errors.contact}</p> : null}
                 </div>
                 <div>
                   <label htmlFor="channel">Ссылка на Telegram-канал</label>

@@ -15,7 +15,7 @@ import { Testimonials } from "./Testimonials";
 import { TrustBadges } from "./TrustBadges";
 
 export function LandingPage() {
-  const [selectedPlan, setSelectedPlan] = useState<PricingPlan | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<PricingPlan | null>(pricingPlans[0]);
 
   const scrollTo = (id: string) => {
     const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth";
