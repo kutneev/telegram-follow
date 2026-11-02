@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const links = [
   { href: "#how-it-works", label: "Как работает" },
   { href: "#pricing", label: "Тарифы" },
@@ -10,7 +12,7 @@ export function Footer() {
     <footer className="border-t border-slate-200 bg-white py-7 md:py-8">
       <div className="container-shell flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
         <div>
-          <p className="font-semibold text-ink">Подписчики Телеграм</p>
+          <a href="#top" className="footer-brand"><Image src="/brand/logo.svg" alt="Подписчики Телеграм — на главную" width={520} height={144} className="site-brand-logo" /></a>
           <p className="mt-2 max-w-md text-sm leading-6 text-slate-600">
             Живые подписчики в Telegram-канал через рассылку-приглашение.
           </p>
@@ -31,3 +33,4 @@ export function Footer() {
     </footer>
   );
 }
+

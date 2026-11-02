@@ -20,8 +20,10 @@ export const metadata: Metadata = {
     url: `${siteUrl}/`,
     siteName: "Подписчики Телеграм",
     locale: "ru_RU",
-    type: "website"
+    type: "website",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Подписчики Телеграм — живые подписчики в канал" }]
   },
+  twitter: { card: "summary_large_image" },
   robots: {
     index: true,
     follow: true
@@ -30,7 +32,11 @@ export const metadata: Metadata = {
     yandex: "5f558a8f36aaed6b"
   },
   icons: {
-    icon: "/icon.svg"
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
+      { url: "/icon.svg", type: "image/svg+xml" }
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }]
   }
 };
 
@@ -78,3 +84,4 @@ export default function RootLayout({
     </html>
   );
 }
+

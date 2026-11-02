@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 type HeaderProps = {
   onCtaClick: () => void;
 };
@@ -13,7 +15,7 @@ export function Header({ onCtaClick }: HeaderProps) {
     <header className="site-header">
       <div className="container-shell header-inner">
         <a href="#top" className="header-title">
-          Подписчики Телеграм
+          <Image src="/brand/logo.svg" alt="Подписчики Телеграм — на главную" width={520} height={144} className="site-brand-logo" priority />
         </a>
 
         <nav className="header-nav" aria-label="Основная навигация">
@@ -32,3 +34,4 @@ export function Header({ onCtaClick }: HeaderProps) {
     </header>
   );
 }
+
