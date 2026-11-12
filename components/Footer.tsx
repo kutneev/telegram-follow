@@ -24,6 +24,9 @@ export function Footer() {
             <a className="underline underline-offset-2" href="mailto:realbuzzmanager@yandex.ru">realbuzzmanager@yandex.ru</a><br />
             <a className="underline underline-offset-2" href="https://t.me/Savkin_1337">Telegram @Savkin_1337</a>
           </p>
+          <p className="mt-2 text-sm leading-6 text-slate-600">
+            <a className="underline underline-offset-2" href="/returns/">Условия оказания услуг и возврата</a>
+          </p>
         </div>
 
         <nav className="flex flex-wrap gap-2 text-sm font-medium text-slate-600">
