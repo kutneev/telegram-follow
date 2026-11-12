@@ -79,7 +79,7 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
           <p className="section-kicker">Заявка</p>
           <h2 className="section-title">Оставить заявку</h2>
           <p className="section-copy">
-            Укажите ваши контакты и ссылку на Telegram-канал. Отвечаем в дневное время в течение нескольких часов. Оплата после общения с нами.
+            Укажите ваши контакты и ссылку на Telegram-канал. Отвечаем в дневное время в течение нескольких часов. Оплатить заказ можно после того, как мы свяжемся с вами.
           </p>
         </div>
 
@@ -88,7 +88,7 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
           {isSent ? (
             <div className="lead-success" role="status" tabIndex={-1}>
               <span className="success-icon"><CheckIcon /></span>
-              <p>Заявка отправлена. Отвечаем в дневное время в течение нескольких часов. Свяжемся с вами по указанному контакту. Оплата после общения с нами.</p>
+              <p>Заявка отправлена. Отвечаем в дневное время в течение нескольких часов. Свяжемся с вами по указанному контакту. Оплатить заказ можно после того, как мы свяжемся с вами.</p>
             </div>
           ) : (
             <>
