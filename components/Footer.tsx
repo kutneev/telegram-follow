@@ -17,8 +17,12 @@ export function Footer() {
             Живые подписчики в Telegram-канал через рассылку-приглашение.
           </p>
           <p className="mt-2 text-sm leading-6 text-slate-600">
-            Савкин Александр Игоревич<br />
+            Самозанятый Савкин Александр Игоревич<br />
             ИНН 027404221032
+          </p>
+          <p className="mt-2 text-sm leading-6 text-slate-600">
+            <a className="underline underline-offset-2" href="mailto:realbuzzmanager@yandex.ru">realbuzzmanager@yandex.ru</a><br />
+            <a className="underline underline-offset-2" href="https://t.me/Savkin_1337">Telegram @Savkin_1337</a>
           </p>
         </div>
 
