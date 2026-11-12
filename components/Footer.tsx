@@ -18,14 +18,17 @@ export function Footer() {
           </p>
           <p className="mt-2 text-sm leading-6 text-slate-600">
             Самозанятый Савкин Александр Игоревич<br />
-            ИНН 027404221032
+            ИНН 027404221032 · г. Уфа
           </p>
           <p className="mt-2 text-sm leading-6 text-slate-600">
             <a className="underline underline-offset-2" href="mailto:realbuzzmanager@yandex.ru">realbuzzmanager@yandex.ru</a><br />
             <a className="underline underline-offset-2" href="https://t.me/Savkin_1337">Telegram @Savkin_1337</a>
           </p>
           <p className="mt-2 text-sm leading-6 text-slate-600">
-            <a className="underline underline-offset-2" href="/returns/">Условия оказания услуг и возврата</a>
+            <a className="underline underline-offset-2" href="/returns/">Условия оказания услуг и возврата</a><br />
+            <a className="underline underline-offset-2" href="/offer/">Публичная оферта</a><br />
+            <a className="underline underline-offset-2" href="/privacy/">Политика обработки данных</a><br />
+            <a className="underline underline-offset-2" href="#analytics-settings" data-analytics-settings="true">Настройки аналитики</a>
           </p>
         </div>
 

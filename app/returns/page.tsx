@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Условия оказания услуг и возврата — Подписчики Телеграм",
@@ -10,15 +11,15 @@ export const metadata: Metadata = {
 export default function ReturnTerms() {
   return (
     <div className="container-shell max-w-3xl py-8 md:py-12">
-      <a href="/" aria-label="Подписчики Телеграм — на главную">
+      <Link href="/" aria-label="Подписчики Телеграм — на главную">
         <Image src="/brand/logo.svg" alt="Подписчики Телеграм" width={260} height={72} />
-      </a>
+      </Link>
       <main>
         <h1 className="mt-6 text-3xl font-semibold leading-tight md:text-4xl">Условия оказания услуг и возврата</h1>
         <p className="mt-3 text-sm text-slate-500">Редакция от 12 ноября 2026 года</p>
         <section className="mt-7">
           <h2 className="text-xl font-semibold">Кто оказывает услуги</h2>
-          <p className="mt-3 leading-7 text-slate-600">Исполнитель — самозанятый Савкин Александр Игоревич, ИНН 027404221032.</p>
+          <p className="mt-3 leading-7 text-slate-600">Исполнитель — самозанятый Савкин Александр Игоревич, ИНН 027404221032, город Уфа.</p>
           <p className="mt-3 leading-7 text-slate-600">По вопросам заказа, отмены и возврата пишите на <a className="underline underline-offset-2 break-words" href="mailto:realbuzzmanager@yandex.ru">realbuzzmanager@yandex.ru</a>. Для связи также доступен <a className="underline underline-offset-2 break-words" href="https://t.me/Savkin_1337">Telegram @Savkin_1337</a>.</p>
         </section>
         <section className="mt-7">
@@ -50,7 +51,9 @@ export default function ReturnTerms() {
         </section>
       </main>
       <footer className="mt-10 border-t border-slate-200 pt-5 text-sm text-slate-600">
-        <a className="underline underline-offset-2" href="/">Вернуться на главную</a>
+        <p><a className="underline" href="/offer/">Публичная оферта</a> · <a className="underline" href="/privacy/">Политика обработки данных</a></p>
+        <p className="mt-3"><a className="underline" href="#analytics-settings" data-analytics-settings="true">Настройки аналитики</a></p>
+        <p className="mt-3"><Link className="underline underline-offset-2" href="/">Вернуться на главную</Link></p>
       </footer>
     </div>
   );

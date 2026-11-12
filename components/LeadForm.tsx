@@ -83,7 +83,7 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
           </p>
         </div>
 
-        <form className="lead-card" onSubmit={handleSubmit} noValidate>
+        <form className="lead-card ym-disable-submit" onSubmit={handleSubmit} noValidate>
           <input type="hidden" name="plan" value={selectedPlanLabel} />
           {isSent ? (
             <div className="lead-success" role="status" tabIndex={-1}>
@@ -134,7 +134,7 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
                     enterKeyHint="next"
                     value={contact}
                     onChange={(event) => setContact(event.target.value)}
-                    className="form-input"
+                    className="form-input ym-disable-keys"
                     placeholder="Ваш @username в Telegram"
                     disabled={isSubmitting}
                     aria-invalid={Boolean(errors.contact)}
@@ -156,7 +156,7 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
                     enterKeyHint="send"
                     value={channel}
                     onChange={(event) => setChannel(event.target.value)}
-                    className="form-input"
+                    className="form-input ym-disable-keys"
                     placeholder="https://t.me/channel"
                     disabled={isSubmitting}
                     aria-invalid={Boolean(errors.channel)}
@@ -171,6 +171,7 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
               </button>
             </>
           )}
+          <p className="mt-4 text-sm leading-6 text-slate-600">Данные заявки нужны для связи и обсуждения заказа. <a className="underline" href="/privacy/">Политика обработки данных</a>. Условия заказа описаны в <a className="underline" href="/offer/">оферте</a>.</p>
         </form>
       </div>
     </section>
