@@ -316,3 +316,28 @@ summary::-webkit-details-marker { display: none; }
 .payment-bank a { display: block; font-weight: 600; font-size: 14px; }
 .order-payment :focus-visible { outline: 3px solid #067bb1; outline-offset: 3px; }
 @media (max-width: 480px) { .payment-banks { grid-template-columns: 1fr; } .payment-bank p { min-height: 0; } }
+
+@media (max-width: 767px) {
+  .payment-banks { grid-template-columns: 1fr; }
+  .payment-bank { padding: 16px; }
+  .payment-bank img { display: none; }
+  .payment-bank p { min-height: 0; margin: 6px 0 14px; }
+  .order-payment .payment-bank a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 52px;
+    padding: 12px 16px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    background: #087bb0;
+    color: #fff;
+    font-size: 16px;
+    line-height: 1.4;
+    text-decoration: none;
+    text-align: center;
+  }
+  .order-payment .payment-bank a:hover,
+  .order-payment .payment-bank a:active { background: #06628d; }
+}
