@@ -1,10 +1,8 @@
 import Image from "next/image";
-import { useState } from "react";
 
 export type SavedOrder = { requestId: string; amount: number; plan: string };
 
 export function PaymentDetails({ order }: { order: SavedOrder }) {
-  const [copied, setCopied] = useState(false);
   return (
     <section className="order-payment" aria-label="Оплата заявки" data-clarity-mask="true">
       <h3>Заявка сохранена — можно оплатить</h3>
@@ -13,10 +11,6 @@ export function PaymentDetails({ order }: { order: SavedOrder }) {
         <div><dt>Пакет</dt><dd>{order.plan}</dd></div>
         <div><dt>К оплате</dt><dd className="order-amount">{order.amount.toLocaleString("ru-RU")} ₽</dd></div>
       </dl>
-      <button type="button" className="payment-copy" onClick={async () => {
-        try { await navigator.clipboard.writeText(order.requestId); setCopied(true); }
-        catch { setCopied(false); }
-      }}>{copied ? "Номер скопирован" : "Скопировать номер заявки"}</button>
       <p>Выберите один способ оплаты. Введите указанную сумму вручную и проверьте получателя в приложении банка перед переводом.</p>
       <div className="payment-banks">
         <article className="payment-bank">
@@ -32,9 +26,7 @@ export function PaymentDetails({ order }: { order: SavedOrder }) {
           <a href="https://c2c.cbrpay.ru/BS1I000S80DJB659986O6F6FV53371EP" target="_blank" rel="noopener noreferrer">Оплатить через Альфу ↗</a>
         </article>
       </div>
-      <p>После перевода отправьте номер заявки <strong>{order.requestId}</strong> и подтверждение оплаты в <a href="https://t.me/Savkin_1337" target="_blank" rel="noopener noreferrer">Telegram @Savkin_1337</a>. Оплату проверяем вручную, днём в течение нескольких часов. Повторно оплачивать до ответа не нужно.</p>
-      <p className="payment-status">Статус оплаты: не проверена. Переход в банк сам по себе не подтверждает оплату.</p>
-      <p>Можно оплатить позже или сначала задать нам вопрос. <a href="/offer/">Условия заказа</a> · <a href="/returns/">Отмена и возврат</a>.</p>
+      <p className="payment-support">Есть вопросы? <a href="https://t.me/Savkin_1337" target="_blank" rel="noopener noreferrer">Напишите нам в Telegram</a>.</p>
     </section>
   );
 }

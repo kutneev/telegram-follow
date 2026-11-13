@@ -187,7 +187,7 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
               </button>
             </>
           )}
-          <p className="mt-4 text-sm leading-6 text-slate-600">Данные заявки нужны для связи и обсуждения заказа. <a className="underline" href="/privacy/">Политика обработки данных</a>. Условия заказа описаны в <a className="underline" href="/offer/">оферте</a>.</p>
+          {!isSent && <p className="mt-4 text-sm leading-6 text-slate-600">Данные заявки нужны для связи и обсуждения заказа. <a className="underline" href="/privacy/">Политика обработки данных</a>. Условия заказа описаны в <a className="underline" href="/offer/">оферте</a>.</p>}
         </form>
       </div>
     </section>
