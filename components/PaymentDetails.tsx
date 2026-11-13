@@ -18,6 +18,8 @@ export function PaymentDetails({ order }: { order: SavedOrder }) {
           <p>Сбер и Т-Банк</p>
           <Image src="/payments/sber.png" width={600} height={600} alt="QR-код оплаты через Сбер" />
           <a href="https://www.sberbank.ru/ru/choise_bank?requisiteNumber=79174812644&amp;bankCode=100000000111" target="_blank" rel="noopener noreferrer">Оплатить через Сбер ↗</a>
+          <small className="payment-help">Не открывается? Попробуйте Яндекс Браузер.</small>
+          <small className="payment-help payment-help--desktop">QR-код можно сканировать в приложении банка.</small>
         </article>
         <article className="payment-bank">
           <h4>Альфа-Банк</h4>
