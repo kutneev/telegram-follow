@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import type { PricingPlan } from "@/data/content";
 import { CheckIcon } from "./Icons";
+import { normalizeChannelLink } from "@/lib/channel-link";
 import { PaymentDetails, type SavedOrder } from "./PaymentDetails";
 
 type LeadFormProps = {
@@ -9,7 +10,6 @@ type LeadFormProps = {
   onSelectPlan: (plan: PricingPlan) => void;
 };
 
-const telegramPattern = /^(https?:\/\/)?t\.me\/[a-zA-Z0-9_]{5,}\/?$|^@[a-zA-Z0-9_]{5,}$/;
 const leadEndpoint =
   "https://script.google.com/macros/s/AKfycby2bRUuVzYXiMHYHQPX20AZ6v0iKcQHUeRY4ejFoo-LzDhIGlk34IUS9SBRBnPNbH_k/exec";
 
@@ -48,7 +48,8 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
     if (!contact.trim()) {
       nextErrors.contact = "Укажите ваши контакты.";
     }
-    if (!telegramPattern.test(channel.trim())) {
+    const normalizedLink = normalizeChannelLink("Telegram", channel);
+    if (!normalizedLink) {
       nextErrors.channel = "Укажите ссылку вида https://t.me/channel, t.me/channel или @channelname.";
     }
     setErrors(nextErrors);
@@ -58,7 +59,7 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
     }
 
     if (!selectedPlan) { setSubmitError("Выберите тариф."); return; }
-    const payload = { email: contact.trim(), channel: channel.trim(), plan: selectedPlanLabel, planId: selectedPlan.id, source: "telegram-follow" };
+    const payload = { email: contact.trim(), channel: normalizedLink!, plan: selectedPlanLabel, planId: selectedPlan.id, source: "telegram-follow" };
     const signature = JSON.stringify(payload);
     if (submission.current?.payload !== signature) submission.current = { payload: signature, token: crypto.randomUUID() };
     setIsSubmitting(true);
@@ -169,7 +170,7 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
                     value={channel}
                     onChange={(event) => setChannel(event.target.value)}
                     className="form-input ym-disable-keys"
-                    placeholder="https://t.me/channel"
+                    placeholder="t.me/channel или @channelname"
                     disabled={isSubmitting}
                     aria-invalid={Boolean(errors.channel)}
                     aria-describedby={errors.channel ? "channel-error" : undefined}
