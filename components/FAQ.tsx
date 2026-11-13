@@ -1,12 +1,27 @@
 import type { FaqItem } from "@/data/content";
+import { useEffect, useRef } from "react";
 
 type FAQProps = {
   items: FaqItem[];
 };
 
 export function FAQ({ items }: FAQProps) {
+  const section = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const applyDefault = () => {
+      section.current?.querySelectorAll("details").forEach((item) => {
+        item.open = desktop.matches;
+      });
+    };
+    applyDefault();
+    desktop.addEventListener("change", applyDefault);
+    return () => desktop.removeEventListener("change", applyDefault);
+  }, []);
+
   return (
-    <section id="faq" className="section-pad bg-white">
+    <section ref={section} id="faq" className="section-pad bg-white">
       <div className="container-shell">
         <div className="section-heading">
           <p className="section-kicker">FAQ</p>
@@ -30,3 +45,4 @@ export function FAQ({ items }: FAQProps) {
     </section>
   );
 }
+
