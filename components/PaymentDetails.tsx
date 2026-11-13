@@ -16,14 +16,14 @@ export function PaymentDetails({ order }: { order: SavedOrder }) {
         <article className="payment-bank">
           <h4>Сбер и Т-Банк</h4>
           <Image src="/payments/sber.png" width={600} height={600} alt="QR-код оплаты через Сбер" />
-          <a href="https://www.sberbank.ru/ru/choise_bank?requisiteNumber=79174812644&amp;bankCode=100000000111" target="_blank" rel="noopener noreferrer">Оплатить через Сбер ↗</a>
+          <a href="https://www.sberbank.ru/ru/choise_bank?requisiteNumber=79174812644&amp;bankCode=100000000111" target="_blank" rel="noopener noreferrer">Оплатить</a>
           <small className="payment-help">Не открывается? Попробуйте Яндекс Браузер.</small>
           <small className="payment-help payment-help--desktop">QR-код можно сканировать в приложении банка.</small>
         </article>
         <article className="payment-bank">
           <h4>Альфа, Газпромбанк, ВТБ, МТС Банк, Совкомбанк</h4>
           <Image src="/payments/alfa.png" width={600} height={600} alt="QR-код оплаты через Альфа-Банк" />
-          <a href="https://c2c.cbrpay.ru/BS1I000S80DJB659986O6F6FV53371EP" target="_blank" rel="noopener noreferrer">Оплатить через Альфу ↗</a>
+          <a href="https://c2c.cbrpay.ru/BS1I000S80DJB659986O6F6FV53371EP" target="_blank" rel="noopener noreferrer">Оплатить</a>
         </article>
       </div>
       <p className="payment-support">Есть вопросы? <a href="https://t.me/Savkin_1337" target="_blank" rel="noopener noreferrer">Напишите нам в Telegram</a>.</p>

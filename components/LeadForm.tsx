@@ -93,11 +93,7 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
     <section id="lead-form" className="section-pad lead-section">
       <div className="container-shell lead-grid">
         <div className="lead-intro">
-          <p className="section-kicker">Заявка</p>
-          <h2 className="section-title">Оставить заявку</h2>
-          <p className="section-copy">
-            Укажите ваши контакты и ссылку на Telegram-канал. Отвечаем в дневное время в течение нескольких часов. После сохранения заявки можно сразу оплатить выбранный пакет.
-          </p>
+          <h2 className="section-title">Заказать услугу</h2>
         </div>
 
         <form className="lead-card ym-disable-submit" onSubmit={handleSubmit} noValidate>
