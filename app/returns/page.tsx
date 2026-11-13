@@ -16,7 +16,7 @@ export default function ReturnTerms() {
       </Link>
       <main>
         <h1 className="mt-6 text-3xl font-semibold leading-tight md:text-4xl">Условия оказания услуг и возврата</h1>
-        <p className="mt-3 text-sm text-slate-500">Редакция от 12 ноября 2026 года</p>
+        <p className="mt-3 text-sm text-slate-500">Редакция от 13 ноября 2026 года</p>
         <section className="mt-7">
           <h2 className="text-xl font-semibold">Кто оказывает услуги</h2>
           <p className="mt-3 leading-7 text-slate-600">Исполнитель — самозанятый Савкин Александр Игоревич, ИНН 027404221032, город Уфа.</p>
@@ -25,7 +25,7 @@ export default function ReturnTerms() {
         <section className="mt-7">
           <h2 className="text-xl font-semibold">Оказание услуг и оплата</h2>
           <p className="mt-3 leading-7 text-slate-600">Привлекаем живых подписчиков через приглашения. Описание, объём, стоимость и срок выполнения указаны в выбранном пакете на странице услуги.</p>
-          <p className="mt-3 leading-7 text-slate-600">После заявки мы свяжемся с вами и обсудим детали запуска. Днём отвечаем в течение нескольких часов. Оплатить заказ можно после общения с нами.</p>
+          <p className="mt-3 leading-7 text-slate-600">После заявки мы свяжемся с вами и обсудим детали запуска. Днём отвечаем в течение нескольких часов. После сохранения заявки можно сразу оплатить выбранный пакет. Если есть вопросы, сначала свяжитесь с нами.</p>
         </section>
         <section className="mt-7">
           <h2 className="text-xl font-semibold">Отмена до запуска</h2>

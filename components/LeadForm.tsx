@@ -1,6 +1,7 @@
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import type { PricingPlan } from "@/data/content";
 import { CheckIcon } from "./Icons";
+import { PaymentDetails, type SavedOrder } from "./PaymentDetails";
 
 type LeadFormProps = {
   plans: PricingPlan[];
@@ -17,12 +18,22 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
   const [channel, setChannel] = useState("");
   const [errors, setErrors] = useState<{ contact?: string; channel?: string }>({});
   const [isSent, setIsSent] = useState(false);
+  const [savedOrder, setSavedOrder] = useState<SavedOrder | null>(null);
+  const submission = useRef<{ payload: string; token: string } | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const planPicker = useRef<HTMLDetailsElement>(null);
   const planSummary = useRef<HTMLElement>(null);
   const contactInput = useRef<HTMLInputElement>(null);
   const channelInput = useRef<HTMLInputElement>(null);
+  const successPanel = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isSent) {
+      successPanel.current?.focus({ preventScroll: true });
+      successPanel.current?.scrollIntoView({ block: "start" });
+    }
+  }, [isSent]);
 
   const selectedPlanLabel = selectedPlan
     ? `${selectedPlan.name} — ${selectedPlan.subscribers} за ${selectedPlan.price}`
@@ -46,21 +57,27 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
       return;
     }
 
+    if (!selectedPlan) { setSubmitError("Выберите тариф."); return; }
+    const payload = { email: contact.trim(), channel: channel.trim(), plan: selectedPlanLabel, planId: selectedPlan.id, source: "telegram-follow" };
+    const signature = JSON.stringify(payload);
+    if (submission.current?.payload !== signature) submission.current = { payload: signature, token: crypto.randomUUID() };
     setIsSubmitting(true);
     try {
-      await fetch(leadEndpoint, {
+      const response = await fetch(leadEndpoint, {
         method: "POST",
-        mode: "no-cors",
-        body: JSON.stringify({
-          email: contact.trim(),
-          channel: channel.trim(),
-          plan: selectedPlanLabel,
-          source: "telegram-follow"
-        })
+        credentials: "omit",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ ...payload, submissionToken: submission.current.token })
       });
+      const result = await response.json();
+      if (!response.ok || result.success !== true) throw new Error("Сохранение не подтверждено");
+      const amount = Number(selectedPlan.price.replace(/\D/g, ""));
+      if (typeof result.requestId === "string" && /^TG-[A-Z0-9-]{6,40}$/.test(result.requestId) && result.amount === amount && result.paymentStatus === "Не проверена") {
+        setSavedOrder({ requestId: result.requestId, amount, plan: selectedPlanLabel });
+      }
       setIsSent(true);
     } catch {
-      setSubmitError("Не удалось отправить заявку. Попробуйте ещё раз.");
+      setSubmitError("Не удалось подтвердить сохранение заявки. Повторите отправку или напишите @Savkin_1337 в Telegram.");
     } finally {
       setIsSubmitting(false);
     }
@@ -79,16 +96,15 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
           <p className="section-kicker">Заявка</p>
           <h2 className="section-title">Оставить заявку</h2>
           <p className="section-copy">
-            Укажите ваши контакты и ссылку на Telegram-канал. Отвечаем в дневное время в течение нескольких часов. Оплатить заказ можно после того, как мы свяжемся с вами.
+            Укажите ваши контакты и ссылку на Telegram-канал. Отвечаем в дневное время в течение нескольких часов. После сохранения заявки можно сразу оплатить выбранный пакет.
           </p>
         </div>
 
         <form className="lead-card ym-disable-submit" onSubmit={handleSubmit} noValidate>
           <input type="hidden" name="plan" value={selectedPlanLabel} />
           {isSent ? (
-            <div className="lead-success" role="status" tabIndex={-1}>
-              <span className="success-icon"><CheckIcon /></span>
-              <p>Заявка отправлена. Отвечаем в дневное время в течение нескольких часов. Свяжемся с вами по указанному контакту. Оплатить заказ можно после того, как мы свяжемся с вами.</p>
+            <div className="order-result" ref={successPanel} role="status" tabIndex={-1}>
+              {savedOrder ? <PaymentDetails order={savedOrder} /> : <p>Заявка сохранена. Реквизиты оплаты сейчас недоступны. Напишите нам в <a href="https://t.me/Savkin_1337">Telegram @Savkin_1337</a> — поможем с оплатой. Повторно отправлять заявку не нужно.</p>}
             </div>
           ) : (
             <>
