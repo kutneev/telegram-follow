@@ -11,19 +11,17 @@ export function PaymentDetails({ order }: { order: SavedOrder }) {
         <div><dt>Пакет</dt><dd>{order.plan}</dd></div>
         <div><dt>К оплате</dt><dd className="order-amount">{order.amount.toLocaleString("ru-RU")} ₽</dd></div>
       </dl>
-      <p>Выберите один способ оплаты. Введите указанную сумму вручную и проверьте получателя в приложении банка перед переводом.</p>
+      <p><span className="payment-instruction--desktop">Выберите банк, отсканируйте QR-код и введите сумму.</span><span className="payment-instruction--mobile">Выберите банк и введите сумму.</span></p>
       <div className="payment-banks">
         <article className="payment-bank">
-          <h4>Сбер</h4>
-          <p>Сбер и Т-Банк</p>
+          <h4>Сбер и Т-Банк</h4>
           <Image src="/payments/sber.png" width={600} height={600} alt="QR-код оплаты через Сбер" />
           <a href="https://www.sberbank.ru/ru/choise_bank?requisiteNumber=79174812644&amp;bankCode=100000000111" target="_blank" rel="noopener noreferrer">Оплатить через Сбер ↗</a>
           <small className="payment-help">Не открывается? Попробуйте Яндекс Браузер.</small>
           <small className="payment-help payment-help--desktop">QR-код можно сканировать в приложении банка.</small>
         </article>
         <article className="payment-bank">
-          <h4>Альфа-Банк</h4>
-          <p>Альфа, Газпромбанк, ВТБ, МТС Банк, Совкомбанк</p>
+          <h4>Альфа, Газпромбанк, ВТБ, МТС Банк, Совкомбанк</h4>
           <Image src="/payments/alfa.png" width={600} height={600} alt="QR-код оплаты через Альфа-Банк" />
           <a href="https://c2c.cbrpay.ru/BS1I000S80DJB659986O6F6FV53371EP" target="_blank" rel="noopener noreferrer">Оплатить через Альфу ↗</a>
         </article>
