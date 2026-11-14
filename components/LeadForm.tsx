@@ -73,8 +73,17 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
       const result = await response.json();
       if (!response.ok || result.success !== true) throw new Error("Сохранение не подтверждено");
       const amount = Number(selectedPlan.price.replace(/\D/g, ""));
-      if (typeof result.requestId === "string" && /^TG-[A-Z0-9-]{6,40}$/.test(result.requestId) && result.amount === amount && result.paymentStatus === "Не проверена") {
-        setSavedOrder({ requestId: result.requestId, amount, plan: selectedPlanLabel });
+      if (typeof result.requestId === "string" && /^TG-[A-Z0-9-]{6,40}$/.test(result.requestId) && result.amount === amount && ["Не проверена", "Оплачено"].includes(result.paymentStatus)) {
+        let paymentUrl: string | undefined;
+        if (result.paymentProvider === "prodamus" && typeof result.paymentUrl === "string") {
+          try {
+            const url = new URL(result.paymentUrl);
+            if (url.origin === "https://realbuzz.payform.ru" && !url.username && !url.password) paymentUrl = url.href;
+          } catch { /* A malformed payment URL must never become a link. */ }
+        }
+        setSavedOrder({ requestId: result.requestId, amount, plan: selectedPlanLabel,
+          provider: result.paymentProvider === "prodamus" ? "prodamus" : undefined,
+          paymentUrl, paymentStatus: result.paymentStatus });
       }
       setIsSent(true);
     } catch {

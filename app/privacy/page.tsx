@@ -14,7 +14,7 @@ export default function LegalPage() {
       <Link href="/" aria-label="Подписчики Телеграм — на главную"><Image src="/brand/logo.svg" alt="Подписчики Телеграм" width={260} height={72} /></Link>
       <main>
         <h1 className="mt-6 text-3xl font-semibold leading-tight md:text-4xl">Политика обработки персональных данных</h1>
-        <p className="mt-3 text-sm text-slate-500">Редакция от 12 ноября 2026 года</p>
+        <p className="mt-3 text-sm text-slate-500">Редакция от 14 ноября 2026 года</p>
         <section className="mt-7">
           <h2 className="text-xl font-semibold">Оператор и область действия</h2>
           <p className="mt-3 leading-7 text-slate-600">Оператор персональных данных — самозанятый Савкин Александр Игоревич, ИНН 027404221032, город Уфа. Почта для обращений о персональных данных — <a className="underline underline-offset-2 break-words" href="mailto:realbuzzmanager@yandex.ru">realbuzzmanager@yandex.ru</a>.</p>
@@ -34,6 +34,7 @@ export default function LegalPage() {
         <section className="mt-7">
           <h2 className="text-xl font-semibold">Используемые сервисы</h2>
           <p className="mt-3 leading-7 text-slate-600">Заявки принимаются через Google Apps Script и учитываются в Google Sheets. При использовании этих сервисов данные заявки передаются в инфраструктуру Google.</p>
+          <p className="mt-3 leading-7 text-slate-600">Для приёма оплаты используется Prodamus. При переходе к оплате ему передаются номер заказа, состав и стоимость услуги. Контактные данные для чека покупатель указывает на платёжной странице. Подтверждения платежей обрабатываются в Yandex Cloud и Google Apps Script; в таблице сохраняются идентификатор платежа, статус, дата и способ оплаты.</p>
           <p className="mt-3 leading-7 text-slate-600">На обоих сайтах используется Яндекс Метрика. На Realbuzz дополнительно используется Microsoft Clarity. Подключение необязательной аналитики управляется вашим выбором на сайте.</p>
           <p className="mt-3 leading-7 text-slate-600">При переходе в Telegram, использовании почтового приложения или внешнего способа оплаты данные также обрабатываются соответствующим сервисом по его правилам. Информация о конкретном способе оплаты предоставляется при согласовании заказа.</p>
         </section>

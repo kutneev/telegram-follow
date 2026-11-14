@@ -1,16 +1,22 @@
 import Image from "next/image";
 
-export type SavedOrder = { requestId: string; amount: number; plan: string };
+export type SavedOrder = { requestId: string; amount: number; plan: string; provider?: "prodamus"; paymentUrl?: string; paymentStatus?: string };
 
 export function PaymentDetails({ order }: { order: SavedOrder }) {
   return (
     <section className="order-payment" aria-label="Оплата заявки" data-clarity-mask="true">
-      <h3>Заявка сохранена — можно оплатить</h3>
+      <h3>{order.paymentStatus === "Оплачено" ? "Заказ оплачен" : "Заявка сохранена — можно оплатить"}</h3>
       <dl className="order-summary">
         <div><dt>Номер заявки</dt><dd>{order.requestId}</dd></div>
         <div><dt>Пакет</dt><dd>{order.plan}</dd></div>
         <div><dt>К оплате</dt><dd className="order-amount">{order.amount.toLocaleString("ru-RU")} ₽</dd></div>
       </dl>
+      {order.paymentStatus === "Оплачено" ? <p>Оплата получена.</p> : order.provider === "prodamus" ? (
+        order.paymentUrl ? <>
+          <p>Оплатите выбранный пакет. Сумма уже указана на странице оплаты.</p>
+          <a className="payment-prodamus-button" href={order.paymentUrl}>Оплатить</a>
+        </> : <p>Оплата временно недоступна. Напишите нам в Telegram.</p>
+      ) : <>
       <p><span className="payment-instruction--desktop">Выберите банк, отсканируйте QR-код и введите сумму.</span><span className="payment-instruction--mobile">Выберите банк и введите сумму.</span></p>
       <div className="payment-banks">
         <article className="payment-bank">
@@ -26,6 +32,7 @@ export function PaymentDetails({ order }: { order: SavedOrder }) {
           <a href="https://c2c.cbrpay.ru/BS1I000S80DJB659986O6F6FV53371EP" target="_blank" rel="noopener noreferrer">Оплатить</a>
         </article>
       </div>
+      </>}
       <p className="payment-support">Есть вопросы? <a href="https://t.me/Savkin_1337" target="_blank" rel="noopener noreferrer">Напишите нам в Telegram</a>.</p>
     </section>
   );
