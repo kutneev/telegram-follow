@@ -20,7 +20,7 @@ export default function ReturnTerms() {
         <section className="mt-7">
           <h2 className="text-xl font-semibold">Кто оказывает услуги</h2>
           <p className="mt-3 leading-7 text-slate-600">Исполнитель — самозанятый Савкин Александр Игоревич, ИНН 027404221032, город Уфа.</p>
-          <p className="mt-3 leading-7 text-slate-600">По вопросам заказа, отмены и возврата пишите на <a className="underline underline-offset-2 break-words" href="mailto:realbuzzmanager@yandex.ru">realbuzzmanager@yandex.ru</a>. Для связи также доступен <a className="underline underline-offset-2 break-words" href="https://t.me/Savkin_1337">Telegram @Savkin_1337</a>.</p>
+          <p className="mt-3 leading-7 text-slate-600">По вопросам заказа, отмены и возврата пишите на <a className="underline underline-offset-2 break-words" href="mailto:realbuzzmanager@yandex.ru">realbuzzmanager@yandex.ru</a>.</p>
         </section>
         <section className="mt-7">
           <h2 className="text-xl font-semibold">Оказание услуг и оплата</h2>

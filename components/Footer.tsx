@@ -21,8 +21,7 @@ export function Footer() {
             ИНН 027404221032 · г. Уфа
           </p>
           <p className="mt-2 text-sm leading-6 text-slate-600">
-            <a className="underline underline-offset-2" href="mailto:realbuzzmanager@yandex.ru">realbuzzmanager@yandex.ru</a><br />
-            <a className="underline underline-offset-2" href="https://t.me/Savkin_1337">Telegram @Savkin_1337</a>
+            <a className="underline underline-offset-2" href="mailto:realbuzzmanager@yandex.ru">realbuzzmanager@yandex.ru</a>
           </p>
           <p className="mt-2 text-sm leading-6 text-slate-600">
             <a className="underline underline-offset-2" href="/returns/">Условия оказания услуг и возврата</a><br />

@@ -93,7 +93,7 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
       }
       setIsSent(true);
     } catch {
-      setSubmitError("Не удалось подтвердить сохранение заявки. Повторите отправку или напишите @Savkin_1337 в Telegram.");
+      setSubmitError("Не удалось подтвердить сохранение заявки. Повторите отправку или напишите на realbuzzmanager@yandex.ru.");
     } finally {
       setIsSubmitting(false);
     }
@@ -116,7 +116,7 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
           <input type="hidden" name="plan" value={selectedPlanLabel} />
           {isSent ? (
             <div className="order-result" ref={successPanel} role="status" tabIndex={-1}>
-              {savedOrder ? <PaymentDetails order={savedOrder} /> : <p>Заявка сохранена. Реквизиты оплаты сейчас недоступны. Напишите нам в <a href="https://t.me/Savkin_1337">Telegram @Savkin_1337</a> — поможем с оплатой. Повторно отправлять заявку не нужно.</p>}
+              {savedOrder ? <PaymentDetails order={savedOrder} /> : <p>Заявка сохранена. Реквизиты оплаты сейчас недоступны. Напишите на <a href="mailto:realbuzzmanager@yandex.ru">realbuzzmanager@yandex.ru</a> — поможем с оплатой. Повторно отправлять заявку не нужно.</p>}
             </div>
           ) : (
             <>

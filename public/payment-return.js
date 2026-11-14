@@ -24,7 +24,7 @@
       Date.now() - saved.createdAt <= 86400000 && saved.createdAt <= Date.now() + 60000;
   if (!endpoints[prefix] || !(new RegExp('^' + prefix + '-[A-Z0-9]{12}$')).test(id) || (!hasSession && !hasReturnKey)) {
     heading.textContent = 'Проверим ваш заказ';
-    message.textContent = 'Не удалось автоматически проверить оплату в этом браузере. Если вы уже оплатили заказ, повторно платить не нужно. Напишите нам в Telegram — проверим заказ.';
+    message.textContent = 'Не удалось автоматически проверить оплату в этом браузере. Если вы уже оплатили заказ, повторно платить не нужно. Напишите на указанную ниже почту — проверим заказ.';
     if (/^(RB|TG)-[A-Z0-9]{12}$/.test(id)) panel.querySelector('[data-reference]').textContent = 'Номер заказа: ' + id;
     return;
   }
@@ -72,17 +72,21 @@
         message.textContent = 'Оплату получили. Мы начнём работу по вашему заказу. Если понадобятся уточнения, свяжемся с вами.';
         panel.querySelector('[data-amount-label]').textContent = 'Оплачено';
         panel.dataset.state = 'paid';
+        var paidSupport = panel.querySelector('[data-paid-support]');
+        var unpaidSupport = panel.querySelector('[data-unpaid-support]');
+        if (paidSupport) paidSupport.hidden = false;
+        if (unpaidSupport) unpaidSupport.hidden = true;
         button.hidden = true;
         return;
       }
       if (result.paymentStatus !== 'Не проверена') {
         heading.textContent = 'Уточним статус заказа';
-        message.textContent = 'Статус заказа изменился. Напишите нам в Telegram — уточним детали. Повторно оплачивать заказ не нужно.';
+        message.textContent = 'Статус заказа изменился. Напишите на указанную ниже почту — уточним детали. Повторно оплачивать заказ не нужно.';
         attempts = delays.length;
       }
     } catch (_) {
       heading.textContent = 'Проверяем ваш заказ';
-      message.textContent = 'Сейчас не удалось получить подтверждение оплаты. Если вы уже оплатили заказ, повторно платить не нужно. Попробуйте проверить статус чуть позже или напишите нам в Telegram.';
+      message.textContent = 'Сейчас не удалось получить подтверждение оплаты. Если вы уже оплатили заказ, повторно платить не нужно. Попробуйте проверить статус чуть позже или напишите на указанную ниже почту.';
     } finally {
       busy = false;
       if (!paid) {
@@ -91,7 +95,7 @@
         if (attempts < delays.length) timer = setTimeout(check, delays[attempts++]);
         else if (heading.textContent === 'Проверяем оплату') {
           heading.textContent = 'Подтверждение оплаты ещё не поступило';
-          message.textContent = 'Подтверждение может прийти с задержкой. Если вы уже оплатили заказ, повторно платить не нужно. Проверьте статус чуть позже или напишите нам в Telegram.';
+          message.textContent = 'Подтверждение может прийти с задержкой. Если вы уже оплатили заказ, повторно платить не нужно. Проверьте статус чуть позже или напишите на указанную ниже почту.';
         }
       }
     }

@@ -25,7 +25,8 @@ export default function PaymentReturn() {
             <div><dt data-amount-label="">Сумма заказа</dt><dd data-amount="" /></div>
           </dl>
           <button type="button" data-refresh="" hidden>Проверить статус</button>
-          <p>Есть вопросы? <a href="https://t.me/Savkin_1337" rel="noopener noreferrer" target="_blank">Напишите нам в Telegram</a>.</p>
+          <p data-unpaid-support="">По вопросам оплаты: <a href="mailto:realbuzzmanager@yandex.ru">realbuzzmanager@yandex.ru</a>.</p>
+          <p data-paid-support="" hidden>Есть вопросы по заказу? <a href="https://t.me/Savkin_1337" rel="noopener noreferrer" target="_blank">Напишите нам в Telegram</a>.</p>
           <a className="payment-return-home" href="/">На главную</a>
           <noscript><p>Для автоматической проверки включите JavaScript. Если вы уже оплатили заказ, повторно платить не нужно.</p></noscript>
         </section>

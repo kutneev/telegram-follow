@@ -18,7 +18,7 @@ export default function LegalPage() {
         <section className="mt-7">
           <h2 className="text-xl font-semibold">Исполнитель и стороны договора</h2>
           <p className="mt-3 leading-7 text-slate-600">Самозанятый Савкин Александр Игоревич, ИНН 027404221032, город Уфа, предлагает заключить договор оказания услуг на условиях этой оферты. Заказчик — лицо, оформившее и оплатившее заказ на условиях этой оферты.</p>
-          <p className="mt-3 leading-7 text-slate-600">Контактная почта исполнителя — <a className="underline underline-offset-2 break-words" href="mailto:realbuzzmanager@yandex.ru">realbuzzmanager@yandex.ru</a>. Для общения также доступен <a className="underline underline-offset-2 break-words" href="https://t.me/Savkin_1337">Telegram @Savkin_1337</a>.</p>
+          <p className="mt-3 leading-7 text-slate-600">Контактная почта исполнителя — <a className="underline underline-offset-2 break-words" href="mailto:realbuzzmanager@yandex.ru">realbuzzmanager@yandex.ru</a>.</p>
         </section>
         <section className="mt-7">
           <h2 className="text-xl font-semibold">Предмет договора</h2>

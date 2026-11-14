@@ -15,7 +15,7 @@ export function PaymentDetails({ order }: { order: SavedOrder }) {
         order.paymentUrl ? <>
           <p>Оплатите выбранный пакет. Сумма уже указана на странице оплаты.</p>
           <a className="payment-prodamus-button" href={order.paymentUrl}>Оплатить</a>
-        </> : <p>Оплата временно недоступна. Напишите нам в Telegram.</p>
+        </> : <p>Оплата временно недоступна. Попробуйте чуть позже или напишите на realbuzzmanager@yandex.ru.</p>
       ) : <>
       <p><span className="payment-instruction--desktop">Выберите банк, отсканируйте QR-код и введите сумму.</span><span className="payment-instruction--mobile">Выберите банк и введите сумму.</span></p>
       <div className="payment-banks">
@@ -33,7 +33,7 @@ export function PaymentDetails({ order }: { order: SavedOrder }) {
         </article>
       </div>
       </>}
-      <p className="payment-support">Есть вопросы? <a href="https://t.me/Savkin_1337" target="_blank" rel="noopener noreferrer">Напишите нам в Telegram</a>.</p>
+      {order.paymentStatus === "Оплачено" && <p className="payment-support">Есть вопросы по заказу? <a href="https://t.me/Savkin_1337" target="_blank" rel="noopener noreferrer">Напишите нам в Telegram</a>.</p>}
     </section>
   );
 }
