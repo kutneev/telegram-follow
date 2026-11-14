@@ -31,7 +31,7 @@ export default function PaymentReturn() {
           <noscript><p>Для автоматической проверки включите JavaScript. Если вы уже оплатили заказ, повторно платить не нужно.</p></noscript>
         </section>
       </div>
-      <Script src="/payment-return.js" strategy="afterInteractive" />
+      <Script src="/payment-return.js?v=20261114-paid-contact" strategy="afterInteractive" />
     </main>
   );
 }
