@@ -84,6 +84,12 @@ export function LeadForm({ plans, selectedPlan, onSelectPlan }: LeadFormProps) {
         setSavedOrder({ requestId: result.requestId, amount, plan: selectedPlanLabel,
           provider: result.paymentProvider === "prodamus" ? "prodamus" : undefined,
           paymentUrl, paymentStatus: result.paymentStatus });
+        try {
+          sessionStorage.setItem("prodamus.order." + result.requestId, JSON.stringify({
+            requestId: result.requestId, amount, plan: selectedPlanLabel,
+            token: submission.current.token, createdAt: Date.now()
+          }));
+        } catch { /* The return page offers support if browser storage is unavailable. */ }
       }
       setIsSent(true);
     } catch {
